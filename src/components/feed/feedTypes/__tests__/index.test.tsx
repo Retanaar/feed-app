@@ -1,7 +1,5 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import FeedTypes, { FeedType } from '..';
-import { screen } from '@testing-library/react';
 
 describe('FeedTypes component', () => {
   const mockSetFeedType = jest.fn();
