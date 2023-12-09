@@ -20,10 +20,10 @@ describe('FeedContent component', () => {
       <FeedContent feed={mockFeedItem} removeFeed={mockRemoveFeed} />
     );
 
-    expect(screen.getByText('John')).toBeInTheDocument(); // Предположим, что 'John' отображается в компоненте
-//    expect(screen.getByText('coffee')).toBeInTheDocument(); // Предположим, что 'coffee' отображается в компоненте
-    expect(screen.getByText('Alice')).toBeInTheDocument(); // Предположим, что 'Alice' отображается в компоненте
-    expect(screen.getByText('Meeting at 10 AM')).toBeInTheDocument(); // Предположим, что 'Meeting at 10 AM' отображается в компоненте
+    expect(screen.getByText('John')).toBeInTheDocument(); 
+//    expect(screen.getByText('coffee')).toBeInTheDocument();
+    expect(screen.getByText('Alice')).toBeInTheDocument();
+    expect(screen.getByText('Meeting at 10 AM')).toBeInTheDocument();
   });
 
   it('calls removeFeed function on submenu click', async () => {
@@ -31,7 +31,7 @@ describe('FeedContent component', () => {
       <FeedContent feed={mockFeedItem} removeFeed={mockRemoveFeed} />
     );
 
-    const submenuButton = screen.getByTestId('submenu-button'); // Предположим, что у вас есть тестовый ID для кнопки в Submenu
+    const submenuButton = screen.getByTestId('submenu-button');
     fireEvent.click(submenuButton);
 
     await waitFor(() => {
@@ -39,8 +39,6 @@ describe('FeedContent component', () => {
     });
     fireEvent.click(screen.getByTestId('remove-button'));
     expect(mockRemoveFeed).toHaveBeenCalledWith(1234567890);
-     // Предположим, что 'timestamp' 1234567890 будет передан при удалении
   });
 
-  // Добавьте другие тесты, если есть специфические случаи или условия для проверки
 });
