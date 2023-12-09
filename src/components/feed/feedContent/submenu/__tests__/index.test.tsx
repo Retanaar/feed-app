@@ -1,7 +1,5 @@
-import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
 import Submenu from '..';
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, render, fireEvent } from '@testing-library/react';
 
 describe('Submenu component', () => {
   const mockHandler = jest.fn();
