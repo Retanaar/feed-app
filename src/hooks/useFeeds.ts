@@ -17,11 +17,12 @@ export interface ReturnType {
     removeFeed: (timestamp: number) => void;
 }
 
-function useFeeds(): ReturnType{
+
+function useFeeds(storage_key: string = feed_key): ReturnType{
     const [feeds, setFeeds] = useState(getAllFeeds());
 
     function getAllFeeds() {
-        const feedsJSON = localStorage.getItem(feed_key);
+        const feedsJSON = localStorage.getItem(storage_key);
         const feeds = feedsJSON ? JSON.parse(feedsJSON) : [];
 
         return feeds;
@@ -32,13 +33,13 @@ function useFeeds(): ReturnType{
             ...feed,
             timestamp: (new Date()).getTime()
         }, ...getAllFeeds()];
-        localStorage.setItem(feed_key, JSON.stringify(feeds))
+        localStorage.setItem(storage_key, JSON.stringify(feeds))
         setFeeds(feeds);
     }
     function removeFeed(timestamp: number) {
         const feeds = getAllFeeds();
         const filtered = feeds.filter((feed: FeedItem) => feed.timestamp !== timestamp)
-        localStorage.setItem(feed_key, JSON.stringify(filtered));
+        localStorage.setItem(storage_key, JSON.stringify(filtered));
         setFeeds(filtered);
     }
     return {
