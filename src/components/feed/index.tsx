@@ -5,7 +5,7 @@ import FeedTypes, { FeedType } from "./feedTypes";
 import { useState } from "react";
 import ListIcon from '@mui/icons-material/List';
 import CircleIcon from "./circleIcon";
-import useFeeds from "../../hooks/useFeeds";
+import useFeeds, { FeedItem } from "../../hooks/useFeeds";
 import { getDaysFromNow, getTypeIcon } from "./utils";
 import FeedContent from "./feedContent";
 
@@ -15,18 +15,36 @@ interface FeedsProps {
 }
 
 function Feeds({ owner, contactName }: FeedsProps){
-    const [feedType, setFeedType] = useState(FeedType.MESSAGE)
+    const [feedType, setFeedType] = useState(FeedType.MESSAGE);
+    const [editFeedId, setEditFeedId] = useState(0);
     const [note, updateNote] = useState('');
-    const {feeds, saveFeed, removeFeed} = useFeeds();
+    const {feeds, saveFeed, removeFeed, editFeed} = useFeeds();
 
     function save() {
-        saveFeed({
+        const data = {
             owner,
             contact: contactName,
             feedType: feedType,
             note
-        });
+        }
+
+        if (!editFeedId) {
+            saveFeed(data);
+        } else {
+            editFeed({
+                ...data,
+                timestamp: editFeedId
+            });
+            setEditFeedId(0)
+        }
+
         updateNote('');
+    }
+
+    function editFeedHandler(feed: FeedItem) {
+        setEditFeedId(feed.timestamp);
+        updateNote(feed.note);
+        setFeedType(feed.feedType);
     }
     
 
@@ -57,7 +75,7 @@ function Feeds({ owner, contactName }: FeedsProps){
                 icon={<CircleIcon icon={getTypeIcon(row.feedType)}/>}
                 info={getDaysFromNow(row.timestamp) + 'd'}
                 >
-                <FeedContent feed={row} removeFeed={removeFeed} />
+                <FeedContent feed={row} removeFeed={removeFeed} editFeed={editFeedHandler}/>
             </FeedRow>
         ))}
         </>)

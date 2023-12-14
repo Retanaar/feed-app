@@ -53,4 +53,27 @@ describe('useFeeds', () => {
     expect(result.current.feeds).toHaveLength(1);
     expect(result.current.feeds[0].owner).toBe('Jane Smith');
   });
+  test('should update feed',  async () => {
+    const { result } = renderHook(() => useFeeds(test_storage_key));
+    act(() => {
+        result.current.saveFeed({
+            owner: 'Jane Smith',
+            contact: 'John Doe',
+            feedType: FeedType.BEER,
+            note: 'Another test feed',
+        });
+     
+    });
+  
+    act(() => {
+      result.current.editFeed({
+        ...result.current.feeds[0],
+        note: "Another one",
+      })
+    });
+
+    expect(result.current.feeds).toHaveLength(1);
+    expect(result.current.feeds[0].note).toBe('Another one');
+  });
+
 });

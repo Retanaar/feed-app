@@ -4,7 +4,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Menu, MenuItem } from "@mui/material";
 
 interface Props {
-    handler: () => void;
+    handler: (action: string) => void;
 }
 
 function Submenu({ handler }: Props) {
@@ -16,8 +16,8 @@ function Submenu({ handler }: Props) {
     const handleClose = () => {
       setAnchorEl(null);
     };
-    const handleMenu = () => {
-        handler();
+    const handleMenu = (action: string) => {
+        handler(action);
         handleClose();
     }
     return (
@@ -40,8 +40,9 @@ function Submenu({ handler }: Props) {
             horizontal: 'right',
           }}
       >
-        <MenuItem onClick={handleMenu} data-testid='remove-button'>Remove</MenuItem>
-      </Menu>
+        <MenuItem onClick={() => handleMenu('remove')} data-testid='remove-button'>Remove</MenuItem>
+        <MenuItem onClick={() => handleMenu('edit')} data-testid='remove-button'>Edit</MenuItem>
+       </Menu>
         </>
     )
 }
